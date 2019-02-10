@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 
 class UserProfile(models.Model):
-  user = models.OneToOneField(User)
+  user = models.OneToOneField(User, on_delete=models.DO_NOTHING)
   
   def get_full_name(self):
     return '{} {}'.format( self.user.first_name, self.user.last_name )
