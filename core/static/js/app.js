@@ -136,6 +136,24 @@
             }
           
           break;
+          case 'legal':
+
+            var form = $('.bibliography-form .legal-form');
+            if( form.find('.legal-text input').length == 0 ) {
+              var text = $(core.biblg.text).clone().removeClass('hidden');
+
+              if( text.find('.author-field select').length == 0 )
+                $(core.biblg.author).clone().removeClass('hidden secondary').addClass('tertiary').appendTo( text.find('.author-field') );
+
+              text.find('input, textarea, select').each(function(){
+                $(this).attr('name', $(this).attr('name') + '0' );
+              });
+              text.find('select[multiple=multiple]').each(function(){ $(this).attr('name', $(this).attr('name') + '[]' ); });
+
+              text.appendTo(form.find('.legal-text'));
+            }
+
+          break;
         }
         
         form.removeClass('hidden');
@@ -203,6 +221,15 @@
           form.find('.number-checkbox').addClass('hidden');
           form.find('.number-input').removeClass('hidden');
           
+        },
+      },
+      legal: {
+        addNumber: function(){
+
+          var form = $('.bibliography-form .legal-form');
+          form.find('.number-checkbox').addClass('hidden');
+          form.find('.number-input').removeClass('hidden');
+
         },
       },
       authorModel: {

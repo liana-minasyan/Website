@@ -5,7 +5,7 @@ from django.forms import Form
 from django.template import Template, Context
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from .models import Text, Author, Bibliography, Textbook, Fiction, Press 
+from .models import Text, Author, Bibliography, Textbook, Fiction, Press, Legal
 from core.functions import base_context
 from user.models import UserProfile
 import bibliography.forms as BiblForms
@@ -26,6 +26,8 @@ class BibliographyListView(View):
       biblg_list = Fiction.objects.all().order_by('-update_date')
     elif type == 'press':
       biblg_list = Press.objects.all().order_by('-update_date')
+    elif type == 'legal':
+      biblg_list = Legal.objects.all().order_by('-update_date')
       
     paginator = Paginator(biblg_list, 10)
     
@@ -49,6 +51,7 @@ class BibliographyCreate(View):
     context['textbook_form'] = BiblForms.TextbookForm
     context['fiction_form'] = BiblForms.FictionForm
     context['press_form'] = BiblForms.PressForm
+    context['legal_form'] = BiblForms.LegalForm
     return render(request, 'bibliography_form.html', context)
 
 def bibliography_save(request):
@@ -156,15 +159,15 @@ def bibliography_save(request):
       text.delete()
       response['response'] = 'Սխալմունք: {e}'.format(e=E)
       return JsonResponse(response)
-      
+
   elif type == 'press':
-    
+
     text = Text.save_text(form, False)
     if text['type'] == 'error':
       return JsonResponse(text)
-    
+
     text = text['text']
-    
+
     press = Press()
     press.profile = UserProfile.objects.get(user=request.user)
     press.text = text
@@ -176,7 +179,7 @@ def bibliography_save(request):
     press.type = form.get('press_type')
     press.link = form.get('link')
     press.license = form.get('license')
-    
+
     try:
       press.clean_fields()
       press.save()
@@ -188,7 +191,40 @@ def bibliography_save(request):
       text.delete()
       response['response'] = 'Սխալմունք: {e}'.format(e=E)
       return JsonResponse(response)
-      
+
+  elif type == 'legal':
+
+    text = Text.save_text(form, False)
+    if text['type'] == 'error':
+      return JsonResponse(text)
+
+    text = text['text']
+
+    legal = Legal()
+    legal.profile = UserProfile.objects.get(user=request.user)
+    legal.text = text
+    legal.name = form.get('name')
+    legal.tokens_count = form.get('tokens_count')
+    legal.text_publication_date = legal.valid_date(form.get('text_publication_date'))
+    legal.number = form.get('number')
+    legal.sphere = form.get('sphere')
+    legal.type = form.get('legal_type')
+    legal.link = form.get('link')
+    legal.license = form.get('license')
+
+    try:
+      legal.clean_fields()
+      legal.save()
+      response = {
+        'type': 'ok',
+        'response': 'Մամուլը ստեղծված է'
+      }
+    except Exception as E:
+      text.delete()
+      response['response'] = 'Սխալմունք: {e}'.format(e=E)
+      return JsonResponse(response)
+
+
   else:
     response['response'] = 'Նշեք մատենագրության տիպը'
     return JsonResponse(response)

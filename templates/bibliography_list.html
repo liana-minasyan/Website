@@ -9,6 +9,7 @@
       <div class="ui secondary pointing menu">
       <a class="item ajax" href="{% url 'list_view_bibliography' 'fiction' 1 %}">Գեղարվեստական</a>
       <a class="item ajax" href="{% url 'list_view_bibliography' 'press' 1 %}">Մամուլ</a>
+      <a class="item ajax" href="{% url 'list_view_bibliography' 'legal' 1 %}">Իրավական</a>
       <a class="item ajax" href="{% url 'list_view_bibliography' 'textbook' 1 %}">Դասագրքային օրինակներ</a>
       <a class="item">Հեղինակների ցանկ</a>
       {% if auth %}
@@ -26,6 +27,7 @@
         {% if type == 'textbook' %}Դասագրքային օրինակներ
         {% elif type == 'fiction' %}Գեղարվեստական
         {% elif type == 'press' %}Մամուլ
+        {% elif type == 'legal' %}Իրավական
         {% endif %}
         </h4>
         <div class="column">
@@ -86,6 +88,8 @@
                 {{biblg.fiction.text.text|truncatewords:200}}
               {% elif biblg.press %}
                 {{biblg.press.text.text|truncatewords:200}}
+              {% elif biblg.legal %}
+                {{biblg.legal.text.text|truncatewords:200}}
               {% endif %}
             </div>
           </div>

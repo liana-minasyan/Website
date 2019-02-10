@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Author, Text, Textbook, Fiction, Press
+from .models import Author, Text, Textbook, Fiction, Press, Legal
 
 class AuthorForm(ModelForm):
   class Meta:
@@ -24,4 +24,9 @@ class FictionForm(ModelForm):
 class PressForm(ModelForm):
   class Meta:
     model = Press
+    fields = '__all__'
+
+class LegalForm(ModelForm):
+  class Meta:
+    model = Legal
     fields = '__all__'

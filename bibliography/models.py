@@ -250,3 +250,12 @@ class Press(Bibliography):
   sphere = models.CharField(max_length=200)
   type = models.CharField(max_length=200)
   link = models.CharField(max_length=200,blank=True,null=True)
+
+
+class Legal(Bibliography):
+  text = models.ForeignKey(Text, on_delete=models.DO_NOTHING)
+  text_publication_date = models.CharField(max_length=15)
+  number = models.IntegerField(default=0, blank=True, null=True)
+  sphere = models.CharField(max_length=200)
+  type = models.CharField(max_length=200)
+  link = models.CharField(max_length=200, blank=True, null=True)
