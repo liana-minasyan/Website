@@ -150,7 +150,7 @@ class Text(models.Model):
 class Bibliography(models.Model):
   creation_date = models.DateTimeField(auto_now_add=True)
   update_date = models.DateTimeField(auto_now=True)
-  profile = models.ForeignKey(UserProfile)
+  profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
   name = models.CharField(max_length=650)
   tokens_count = models.IntegerField(default=0)
   LICENSE_CHOICES = (
@@ -210,7 +210,7 @@ class Textbook(Bibliography):
   )
   
 class Fiction(Bibliography):
-  text = models.ForeignKey(Text)
+  text = models.ForeignKey(Text,on_delete=models.CASCADE)
   genre = models.CharField(max_length=100)
   text_creation_date = models.CharField(max_length=15)
   text_publication_date = models.CharField(max_length=15)
@@ -244,7 +244,7 @@ class Fiction(Bibliography):
   )
 
 class Press(Bibliography):
-  text = models.ForeignKey(Text)
+  text = models.ForeignKey(Text,on_delete=models.CASCADE)
   text_publication_date = models.CharField(max_length=15)
   number = models.IntegerField(default=0,blank=True,null=True)
   sphere = models.CharField(max_length=200)

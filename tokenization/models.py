@@ -8,7 +8,7 @@ class Sentence(models.Model):
   update_date = models.DateTimeField(auto_now=True)
   sentence = models.TextField()
   position = models.IntegerField()
-  text = models.ForeignKey(Text)
+  text = models.ForeignKey(Text,on_delete=models.CASCADE)
   
   def __str__(self):
     return '{s}'.format(s=self.sentence)
@@ -18,12 +18,12 @@ class Token(models.Model):
   update_date = models.DateTimeField(auto_now=True)
   token = models.CharField(max_length=250)
   position = models.CharField(max_length=5)
-  sentence = models.ForeignKey(Sentence)
+  sentence = models.ForeignKey(Sentence,on_delete=models.CASCADE)
   arc = models.IntegerField(default=0, blank=True)
   arc_label = models.CharField(max_length=50, blank=True)
   trim_spaceafter = models.BooleanField(default=False)
   tag = models.ManyToManyField('tokenization.Word', blank=True)
-  selected_tag = models.ForeignKey('tokenization.Word', related_name='selected_tag', blank=True, null=True)
+  selected_tag = models.ForeignKey('tokenization.Word', related_name='selected_tag', blank=True, null=True, on_delete=models.CASCADE)
   checked = models.BooleanField(default=False)
   
   def __str__(self):
@@ -63,7 +63,7 @@ class Word(models.Model):
 #ok parser-default+
 class Sconj(models.Model):
   POS = 'sconj'
-  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False)
+  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False, on_delete=models.CASCADE)
   lemma = lemma
   abbr = abbr
   poss = poss
@@ -76,7 +76,7 @@ class Sconj(models.Model):
 #ok parser-default+
 class Cconj(models.Model):
   POS = 'cconj'
-  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False)
+  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False, on_delete=models.CASCADE)
   lemma = lemma
   abbr = abbr
   poss = poss
@@ -90,7 +90,7 @@ class Cconj(models.Model):
 #ok parser-pass+
 class Numeral(models.Model):
   POS = 'num'
-  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False)
+  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False,on_delete=models.CASCADE)
   lemma = lemma
   abbr = abbr
   poss = poss
@@ -105,7 +105,7 @@ class Numeral(models.Model):
 #ok parser-default+
 class Part(models.Model):
   POS = 'part'
-  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False)
+  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False, on_delete=models.CASCADE)
   lemma = lemma
   abbr = abbr
   poss = poss
@@ -119,7 +119,7 @@ class Part(models.Model):
 #ok parser-pass+
 class Pron(models.Model):
   POS = 'pron'
-  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False)
+  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False, on_delete=models.CASCADE)
   lemma = lemma
   abbr = abbr
   poss = poss
@@ -139,7 +139,7 @@ class Pron(models.Model):
 #ok parser-default+ 
 class Aux(models.Model):
   POS = 'aux'
-  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False)
+  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False, on_delete=models.CASCADE)
   lemma = lemma
   abbr = abbr
   poss = poss
@@ -161,7 +161,7 @@ class Aux(models.Model):
 #ok parser-pass+
 class Adp(models.Model):
   POS = 'adp'
-  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False)
+  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False, on_delete=models.CASCADE)
   lemma = lemma
   abbr = abbr
   poss = poss
@@ -178,7 +178,7 @@ class Adp(models.Model):
 #ok? parser-pass+
 class Det(models.Model):
   POS = 'det'
-  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False)
+  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False,on_delete=models.CASCADE)
   lemma = lemma
   abbr = abbr
   poss = poss
@@ -197,7 +197,7 @@ class Det(models.Model):
 #ok parser-pass+
 class Intj(models.Model):
   POS = 'intj'
-  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False)
+  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False, on_delete=models.CASCADE)
   lemma = lemma
   value_sym = models.CharField(max_length=250)
   abbr = abbr
@@ -211,7 +211,7 @@ class Intj(models.Model):
 #ok parser-default+
 class Adv(models.Model):
   POS = 'adv'
-  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False)
+  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False, on_delete=models.CASCADE)
   lemma = lemma
   abbr = abbr
   poss = poss
@@ -229,7 +229,7 @@ class Adv(models.Model):
 #ok parser-default+
 class Adj(models.Model):
   POS = 'adj'
-  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False)
+  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False, on_delete=models.CASCADE)
   lemma = lemma
   abbr = abbr
   poss = poss
@@ -248,7 +248,7 @@ class Adj(models.Model):
 #ok parser-default+
 class Punct(models.Model):
   POS = 'punct'
-  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False)
+  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False, on_delete=models.CASCADE)
   lemma = lemma
   abbr = abbr
   poss = poss
@@ -261,7 +261,7 @@ class Punct(models.Model):
 #ok parser-default+
 class Sym(models.Model):
   POS = 'sym'
-  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False)
+  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False, on_delete=models.CASCADE)
   lemma = lemma
   abbr = abbr
   poss = poss
@@ -274,7 +274,7 @@ class Sym(models.Model):
 #ok parser-default+
 class X(models.Model):
   POS = 'x'
-  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False)
+  parent = models.OneToOneField('tokenization.Word', blank=True, null=True, editable=False, on_delete=models.CASCADE)
   lemma = lemma
   abbr = abbr
   poss = poss
@@ -287,7 +287,7 @@ class X(models.Model):
 #ok parser-pass+
 class Noun(models.Model):
   POS = 'noun'
-  parent = models.OneToOneField('tokenization.Word', related_name='n_parent', blank=True, null=True, editable=False)
+  parent = models.OneToOneField('tokenization.Word', related_name='n_parent', blank=True, null=True, editable=False, on_delete=models.CASCADE)
   lemma = lemma
   animacy = models.ManyToManyField('tokenization.NounAnimacy', related_name='n_animacy', blank=True)
   proper = models.BooleanField(default=False)
@@ -319,7 +319,7 @@ class NounAnimacy(models.Model):
 #pass ++
 class Verb(models.Model):
   POS = 'verb'
-  parent = models.OneToOneField('tokenization.Word', related_name='v_parent', blank=True, null=True, editable=False)
+  parent = models.OneToOneField('tokenization.Word', related_name='v_parent', blank=True, null=True, editable=False, on_delete=models.CASCADE)
   lemma = lemma
   abbr = abbr
   poss = poss

@@ -4,9 +4,7 @@ from .models import *
 
 admin.site.register(Sentence)
 admin.site.register(Token)
-
 admin.site.register(NounAnimacy)
-
 
 class WordAdmin(admin.ModelAdmin):
   list_display = ('word', 'pos' )

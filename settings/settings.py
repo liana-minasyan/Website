@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
     'core',
     'user',
     'bibliography',
@@ -82,10 +81,10 @@ WSGI_APPLICATION = 'wsgi.application'
 DATABASES = {
   'default': {
     'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'hayshtem_db',
-    'USER': 'hayshtem',
-    'PASSWORD': '12345',
-    'HOST': '127.0.0.1',
+    'NAME': 'postgres', #hayshtem_db
+    'USER': 'username',  #hayshtem
+    'PASSWORD': 'pass',
+    'HOST': 'localhost',
     'PORT': '5432',
   }
 }
